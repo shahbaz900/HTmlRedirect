@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+
+    <script>
+        function getParameterByName(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        function redirectToApp() {
+            let productId = getParameterByName("id") || "1"; // Get dynamic ID
+            let deepLink = myarapp://product?id=${productId};
+
+            // Try opening immediately without lag
+            window.location.replace(deepLink);
+
+            // Fallback instantly if deep link is blocked (no delay)
+            setTimeout(() => {
+                window.location.replace("https://yourwebsite.com"); // Change to Play Store/App Store link
+            }, 100);
+        }
+    </script>
+</head>
+<body onload="redirectToApp()">
+    <h2>Redirecting to the app...</h2>
+    <p>If nothing happens, <a id="manualLink" href="#">click here</a>.</p>
+
+    <script>
+        let productId = getParameterByName("id") || "1";
+        document.getElementById("manualLink").href = myarapp://product?id=${productId};
+    </script>
+</body>
+</html>
