@@ -12,15 +12,18 @@
         }
 
         function redirectToApp() {
-            let productId = getParameterByName("id") || "1"; // Get dynamic ID
-            let deepLink = myarapp://product?id=${productId};
+            let productId = getParameterByName("id"); // Get the product ID from URL
 
-            // Try opening immediately without lag
-            window.location.replace(deepLink);
+            if (!productId) {
+                productId = "1"; // Default value if no ID is provided
+            }
 
-            // Fallback instantly if deep link is blocked (no delay)
+            const deepLink = `myarapp://product?id=${productId}`;
+            window.location.replace(deepLink); // Redirect instantly
+
+            // Fallback in case app is not installed
             setTimeout(() => {
-                window.location.replace("https://yourwebsite.com"); // Change to Play Store/App Store link
+                window.location.replace("https://yourwebsite.com"); // Change to Play Store link
             }, 100);
         }
     </script>
@@ -31,7 +34,7 @@
 
     <script>
         let productId = getParameterByName("id") || "1";
-        document.getElementById("manualLink").href = myarapp://product?id=${productId};
+        document.getElementById("manualLink").href = `myarapp://product?id=${productId}`;
     </script>
 </body>
 </html>
